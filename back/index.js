@@ -7,6 +7,8 @@
 
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import { rateLimit } from 'express-rate-limit';
 import dotenv from 'dotenv';
 import recommendRouter from './routes/recommend.js';
 
@@ -15,9 +17,24 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Allow requests from the Vite dev server (port 5173)
-app.use(cors({ origin: 'http://localhost:5173' }));
+// Sets secure HTTP headers (X-Content-Type-Options, X-Frame-Options, etc.)
+app.use(helmet());
+
+// Allow requests from the Vite dev server only
+app.use(cors({ origin: process.env.CORS_ORIGIN || 'http://localhost:5173' }));
+
 app.use(express.json());
+
+// Rate limiting — each IP can call /recommend max 10 times per minute.
+// Prevents a single user from draining the OpenAI API budget.
+const limiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests, please try again in a minute.' },
+});
+app.use('/recommend', limiter);
 
 // Routes
 app.use('/recommend', recommendRouter);

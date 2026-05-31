@@ -271,6 +271,21 @@ Budget hints are parsed from natural language: _"under $30"_, _"30€"_, _"30 do
 
 ---
 
+## Security
+
+| Measure | Implementation |
+|---|---|
+| Secure HTTP headers | `helmet()` middleware — sets X-Content-Type-Options, X-Frame-Options, etc. |
+| Rate limiting | `express-rate-limit` — max 10 requests/min per IP on `/recommend` |
+| Input validation | Query string capped at 500 characters before reaching OpenAI API |
+| CORS | Restricted to frontend origin via `CORS_ORIGIN` env variable |
+| Env isolation | Child process (Python) receives only `OPENAI_API_KEY`, not full `process.env` |
+| Secrets | `.env` is gitignored — use `.env.example` as template |
+
+> **Note:** The dataset license (CC BY-NC-SA 4.0) prohibits commercial use. Do not deploy this app commercially without replacing the dataset.
+
+---
+
 ## Roadmap
 
 - [ ] Upgrade to full 11.5k wine dataset — change `points >= 98` to `>= 93` in `filter_data.py` and rebuild the index

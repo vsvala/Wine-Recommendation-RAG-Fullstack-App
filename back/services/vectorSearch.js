@@ -24,7 +24,9 @@ export function search(query) {
     execFile(
       'python3',
       [SCRIPT, query],
-      { env: { ...process.env } },
+      // Pass only the API key instead of the full process.env —
+      // child processes don't need access to all server environment variables.
+      { env: { OPENAI_API_KEY: process.env.OPENAI_API_KEY } },
       (err, stdout, stderr) => {
         if (err) {
           return reject(new Error(`search.py failed: ${stderr || err.message}`));

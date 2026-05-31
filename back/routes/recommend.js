@@ -24,8 +24,14 @@ const router = Router();
 router.post('/', async (req, res) => {
   const { query } = req.body;
 
+  // Validate: must be a non-empty string under 500 characters.
+  // Without the length cap, a malicious user could send a huge string
+  // directly to the OpenAI Embeddings API and inflate costs.
   if (!query || typeof query !== 'string' || query.trim() === '') {
     return res.status(400).json({ error: 'query is required' });
+  }
+  if (query.length > 500) {
+    return res.status(400).json({ error: 'query must be 500 characters or fewer' });
   }
 
   const normalizedQuery = query.trim().toLowerCase();
