@@ -281,3 +281,17 @@ Budget hints are parsed from natural language: _"under $30"_, _"30€"_, _"30 do
 - [ ] Unit tests for ranker scoring logic
 - [ ] Error boundary in React for graceful frontend failures
 - [ ] Rate limiting on the `/recommend` endpoint
+
+---
+
+## Data Attribution
+
+The wine dataset used in this project is sourced from Kaggle:
+
+**[Wine Reviews](https://www.kaggle.com/datasets/zynicide/wine-reviews)** by [zynicide](https://www.kaggle.com/zynicide) on Kaggle  
+Original data scraped from [WineEnthusiast](https://www.winemag.com/) (June 2017)  
+License: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+> This dataset is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0.
+> This means the dataset and any derivatives **may not be used for commercial purposes**.
+> This project is for educational and non-commercial use only.
