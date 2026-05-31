@@ -34,7 +34,8 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ error: 'query must be 500 characters or fewer' });
   }
 
-  const normalizedQuery = query.trim().toLowerCase();
+  // Collapse internal whitespace so "red  wine" and "red wine" hit the same cache key
+  const normalizedQuery = query.trim().toLowerCase().replace(/\s+/g, ' ');
 
   // 1. Cache check
   const cached = await getCached(normalizedQuery);

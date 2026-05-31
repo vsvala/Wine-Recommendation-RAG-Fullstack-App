@@ -10,7 +10,7 @@
 
 import Redis from 'ioredis';
 
-const TTL_SECONDS = 60 * 60; // 1 hour
+const TTL_SECONDS = 60 * 60 * 24 * 7; // 7 days — wine data doesn't change
 
 let redis;
 

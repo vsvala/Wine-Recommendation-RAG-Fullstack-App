@@ -288,14 +288,19 @@ Budget hints are parsed from natural language: _"under $30"_, _"30€"_, _"30 do
 
 ## Roadmap
 
+### Features
 - [ ] Upgrade to full 11.5k wine dataset — change `points >= 98` to `>= 93` in `filter_data.py` and rebuild the index
 - [ ] Implement food pairing score (0.25 weight currently unused in ranker)
-- [ ] Streaming LLM responses for faster perceived latency
 - [ ] Filter UI — dropdowns for country, variety, price range
 - [ ] Docker Compose for one-command startup
 - [ ] Unit tests for ranker scoring logic
 - [ ] Error boundary in React for graceful frontend failures
-- [ ] Rate limiting on the `/recommend` endpoint
+
+### Performance
+- [ ] **Python long-lived process** — biggest win. Currently a new Python process starts on every request, loading the FAISS index from disk each time (~500ms–2s cold start). Fix: keep `search.py` running as a persistent process communicating via stdin/stdout JSON.
+- [ ] **Embedding cache** — on cache miss, the query is re-embedded every time even for near-identical queries. Cache the query vector in Redis alongside the result.
+- [ ] **Streaming LLM responses** — stream GPT-4o-mini tokens to the frontend so the user sees blurbs appear progressively instead of waiting for all 5 at once.
+- [ ] **FAISS IVFFlat index** — current `IndexFlatIP` does exact search over all vectors (fine for 116 wines). At 11.5k+ wines, switch to `IndexIVFFlat` for approximate nearest-neighbour search — much faster at scale with minimal accuracy loss.
 
 ---
 
