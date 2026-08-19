@@ -196,8 +196,9 @@ PORT=3001
 
 Download the [Kaggle Wine Reviews dataset](https://www.kaggle.com/datasets/zynicide/wine-reviews) and place `winemag-data-130k-v2.json` in `data/`.
 
-**Filter the dataset** (run once):
+**Filter the dataset** (run once, with the venv from Prerequisites active):
 ```bash
+source back/venv/bin/activate
 python3 back/scripts/filter_data.py
 ```
 
@@ -217,8 +218,9 @@ This produces `data/wines.index` and `data/wines_ids.json`.
 ### 4. Start Redis
 
 ```bash
-redis-server
+docker start wine-redis   # or: docker run -d --name wine-redis -p 6379:6379 redis
 ```
+See the Redis setup note under Prerequisites if you haven't created the container yet.
 
 ---
 
