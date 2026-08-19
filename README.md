@@ -155,6 +155,16 @@ pip install numpy faiss-cpu openai
 ```
 Activate this venv (`source back/venv/bin/activate`) whenever running the scripts below.
 
+**Redis (via Docker):**
+```bash
+docker run -d --name wine-redis -p 6379:6379 redis
+```
+Stop/start later with `docker stop wine-redis` / `docker start wine-redis`. Verify it's up with `docker exec wine-redis redis-cli ping` (should return `PONG`).
+
+> **Docker Desktop credential helper error?** If `docker run` fails with `docker-credential-desktop: executable file not found in $PATH`, Docker Desktop's `docker-credential-desktop` symlink is broken (common after an update). Fix by removing the `"credsStore"` line from `~/.docker/config.json` — no credential store is needed to pull public images like `redis`.
+
+Prefer not to use Docker? Install natively instead: `brew install redis && brew services start redis`.
+
 ---
 
 ## Setup
