@@ -13,6 +13,9 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SCRIPT = path.join(__dirname, '../scripts/search.py');
+// Use the venv's python3 directly so this works regardless of which
+// python3 is first on PATH (the child process below gets a stripped env).
+const PYTHON = path.join(__dirname, '../venv/bin/python3');
 
 /**
  * Run vector similarity search against the FAISS index.
@@ -22,7 +25,7 @@ const SCRIPT = path.join(__dirname, '../scripts/search.py');
 export function search(query) {
   return new Promise((resolve, reject) => {
     execFile(
-      'python3',
+      PYTHON,
       [SCRIPT, query],
       // Pass only the API key instead of the full process.env —
       // child processes don't need access to all server environment variables.
