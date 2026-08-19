@@ -145,9 +145,15 @@ Wine-Recommendation-RAG-Fullstack-App/
 - OpenAI API key with billing enabled
 
 **Python dependencies:**
+
+Use a virtual environment to keep these isolated from your system Python:
 ```bash
-pip install faiss-cpu openai numpy
+cd back
+python3 -m venv venv
+source venv/bin/activate   # Windows: venv\Scripts\activate
+pip install numpy faiss-cpu openai
 ```
+Activate this venv (`source back/venv/bin/activate`) whenever running the scripts below.
 
 ---
 
@@ -192,8 +198,9 @@ This produces `data/wines_filtered.json`.
 
 **Build the FAISS index** (run once, costs ~$0.01–0.02 in OpenAI credits for the full dataset):
 ```bash
-OPENAI_API_KEY=<your-key> python3 back/scripts/build_index.py
+OPENAI_API_KEY=sk-your-actual-key-here python3 back/scripts/build_index.py
 ```
+> Replace `sk-your-actual-key-here` with your real key. Don't leave angle brackets (`<...>`) in the command — the shell treats `<` as input redirection and fails with `no such file or directory`.
 
 This produces `data/wines.index` and `data/wines_ids.json`.
 
